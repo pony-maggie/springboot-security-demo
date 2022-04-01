@@ -57,6 +57,7 @@ public class JwtUtil {
 
         /**
          * https://blog.csdn.net/qq_37636695/article/details/79265711
+         * 其实这里没太理解signWith这里，HS256和AES是如何结合使用的
          */
         return Jwts.builder()
                 .setId(uuid)
