@@ -16,7 +16,7 @@ public class JwtUtil {
     //有效期
     private static final Long JWT_TTL = 60 * 60 * 1000L; //一个小时
     //密钥
-    private static final String JWT_KEY = "lucas";
+    private static final String JWT_KEY = "malu1234";
 
     public static String getUUID() {
         String token = UUID.randomUUID().toString().replaceAll("-", "");
