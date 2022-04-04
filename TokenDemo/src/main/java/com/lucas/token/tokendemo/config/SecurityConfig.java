@@ -1,5 +1,7 @@
 package com.lucas.token.tokendemo.config;
 
+import com.lucas.token.tokendemo.filter.JwtAuthocationFilter;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -8,9 +10,13 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @Configuration
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
+
+    @Autowired
+    JwtAuthocationFilter jwtAuthocationFilter;
 
     @Bean
     public PasswordEncoder passwordEncoder() {
@@ -34,5 +40,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/user/login").permitAll()
                 //除了上面的接口其他都需要认证
                 .anyRequest().authenticated();
+
+        http.addFilterBefore(jwtAuthocationFilter, UsernamePasswordAuthenticationFilter.class);
     }
 }
