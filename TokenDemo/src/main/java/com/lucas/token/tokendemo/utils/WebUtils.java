@@ -11,7 +11,7 @@ public class WebUtils {
      * @param str
      * @return
      */
-    public String renderString(HttpServletResponse response, String str) {
+    public static String renderString(HttpServletResponse response, String str) {
         try {
             response.setStatus(200);
             response.setContentType("application/json");

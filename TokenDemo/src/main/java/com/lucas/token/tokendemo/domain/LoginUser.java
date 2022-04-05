@@ -1,12 +1,16 @@
 package com.lucas.token.tokendemo.domain;
 
+import com.alibaba.fastjson.annotation.JSONField;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 @Data
 @AllArgsConstructor
@@ -14,10 +18,27 @@ import java.util.Collection;
 public class LoginUser implements UserDetails {
 
     private User user;
+    private List<String> permissions;
+    @JSONField(serialize = false)
+    private List<SimpleGrantedAuthority> authorities;
+
+    public LoginUser(User user, List<String> permissions) {
+        this.user = user;
+        this.permissions = permissions;
+    }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return null;
+        if (authorities != null) {
+            return authorities;
+        }
+
+        List<GrantedAuthority> grantedAuthorities = new ArrayList<>();
+        for (String permission : permissions) {
+            SimpleGrantedAuthority grantedAuthority = new SimpleGrantedAuthority(permission);
+            grantedAuthorities.add(grantedAuthority);
+        }
+        return grantedAuthorities;
     }
 
     @Override
